@@ -1,0 +1,73 @@
+version: '2.1'
+services:
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+      args:
+        UBUNTU_VERSION: ${UBUNTU_VERSION}
+        NGINX_VERSION: ${NGINX_VERSION}
+        COMMIT: ${COMMIT}
+    image: ${NGINX_IMAGE}:${UBUNTU_VERSION}.${NGINX_VERSION}
+    container_name: con-${NGINX_IMAGE}
+    depends_on:
+      - httpd
+    links:
+      - httpd
+    environment:
+      - MAIN_DOMAIN=${MAIN_DOMAIN}
+      - TIMEZONE=${TIMEZONE}
+    extra_hosts:
+      - "${MAIN_DOMAIN}:127.0.0.1"
+    volumes:
+      - ./www:/var/www
+      - ./nginx/sites:/etc/nginx/templates
+      - ./log-nginx:/var/log/nginx
+    networks:
+      test_demo:
+        ipv4_address: ${NGINXIP}
+
+  httpd:
+    image: ${DUSER}/${HTTPD_IMAGE}:${UBUNTU_VERSION}
+    container_name: con-${HTTPD_IMAGE}
+    depends_on:
+      - php-fpm
+    links:
+      - php-fpm
+    environment:
+      - MAIN_DOMAIN=${MAIN_DOMAIN}
+      - TIMEZONE=${TIMEZONE}
+      - CLEAR_APACHE_LOG=${CLEAR_APACHE_LOG}
+    volumes:
+      - ./www:/var/www
+      - ./log-apache:/var/log/apache2
+    networks:
+      test_demo:
+        ipv4_address: ${HTTPDIP}
+
+  php-fpm:
+    image: ${DUSER}/${FPM_IMAGE}:${UBUNTU_VERSION}.${PHP_VERSION}
+    container_name: con-${FPM_IMAGE}
+    environment:
+      - TIMEZONE=${TIMEZONE}
+      - OWN_USER=${OWN_USER}
+      - OWN_GID=${OWN_GID}
+      - OWN_UID=${OWN_UID}
+      - PHP_VERSION=${PHP_VERSION}
+    volumes:
+      - ./www:/var/www
+      - ./log-xdebug:/tmp/xdebug
+      - ./log-fpm:/tmp/log-fpm
+    networks:
+      test_demo:
+        ipv4_address: ${FPMIP}
+
+networks:
+  test_demo:
+    driver: bridge
+    name: test_demo
+    ipam:
+      config:
+      -
+        subnet: ${SUBNET}

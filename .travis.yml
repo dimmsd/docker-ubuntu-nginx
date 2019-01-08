@@ -1,0 +1,60 @@
+sudo: required
+language: ruby
+services: docker
+env:
+  global:
+  - DOCKER_COMPOSE_VERSION=1.18.0
+  - COMMIT=${TRAVIS_COMMIT::8}
+  - DUSER=dimmsd
+  - REPO="dimmsd/ubuntu-nginx"
+  - MAIN_DOMAIN=example.loc
+  - NGINX_IMAGE=ubuntu-nginx
+  - FPM_IMAGE=ubuntu-php-fpm
+  - HTTPD_IMAGE=ubuntu-httpd
+  - UBUNTU_VERSION=16.04
+  - PHP_VERSION=7.0
+  - NGINX_VERSION=1.14.0
+  - TIMEZONE=Europe/Moscow
+  - CLEAR_APACHE_LOG=1
+  - OWN_USER=dimm
+  - OWN_UID=1000
+  - OWN_GID=1000
+  - TEST_A=0.1
+  - NGINXIP=172.50.0.100
+  - HTTPDIP=172.50.0.101
+  - FPMIP=172.50.0.102
+  - SUBNET=172.50.0.0/24
+  - secure: N2izvjHVPnZyRFOdD77EX9m1pYK0Xf02sX7zmNVYrqz879TSVTgKXCVji4kS2u7DlDNpC+KHpuSuE5e3EB6vgM5HhmQAXPIBMrVnuQvhIfM7UMYExcN64w2hhKUURLc7khUh68eUDwqYpvwXebvv7nPrBnOhGZEewBmMN0NaCXgqd8C/62K0ZWwJnR/OF42Gr2YPYO1LdN0q3rkWeczdET9BbPrsPFHObniQa5zEFHxWIxUfDFbipZt1VP7RCV8PTIIxydwD+0AiGEwopwop2vCRxYUDigEIekbb2e+TyhA+gNJNtcH2MMmYTJ5H+BX3CJjRBPHpVTzTuyxNOuZxMfg72qd1SQW76joSFfMqCie8hZ/pPGtHJtSv+nT/9P77+1lY4zFcmgsvypsHvK2VV7mXMoaq5wXF8VrkYB+H2dlcepijk1uuzmIoLr1G2u53fcJ42oimGZmkOK3JdJyUeLPytdirqofzNwckys+WMC3u7O+xPF79cPQ4O/0RjU0k6wUNM2yeYSUu0Io9LYhkc6uuwj5SsGAFjq3OMqtT3uaCdBoTiQGdPNhTBuHPSFteIIwq60r2ndAdbVMxGcCuff7hOEvYkWaXLf/tL6Dvz9nDWhogka8w43Xln7qznj0eyp1SGK/FecawJ8jWv/yvruhL1XlOzKAYVXJZT44urN8=
+  - secure: HVAH5Qt8PQ7RY6sDXcr8KAMR0yxLa9Qgfuoc5CFm9gsIQvhIkV9T6DmiP9+i2n7a8YhyAbhb+bvS9P43GK4Tm+V71xUJAiiZIX32m2gNPBnutTYVnEhwcHR454/QdhdvSPzNUtdxOQQHYesfxTlmMwCo5lO9lU2QQ8hv6Zuxc1sjYpKS1pbmQzwguHWf8FfnHzOZ9AW2ccw4biVVvYRhK9EJxPviJH0Ecx4J4cJbpJcxiyIGzSBBf0b6Zw902lWFYUftbI/NKZ1u5sxsR/9SguY15SI8N+pkshvp//KFc/GrZF8dhnxisStZP7DUUSI1if6/crKkn3EmWbR3GqYFxhq5P8HjTv+Kn7zFeA+BPBnzu5US9iwCmIfND8xjJlYCzPOAp2/q4cnnf/HmXYwb4PyPt1j8pILY9liTO7/AfgxLG28V3d3fslwFX+i/LfP18+JZzENOYpKeUI+hYNtjiAcHCGPLDqO3ZfsNWOGpPLOSU3C2FgXM+7pV3wNla+k52FBGa3HDZvCGvPaG0gCwQ055Reh+n+iC2Ud+ehE80dbnAlng3mGOjyQmKrSIlnu5UhEBNSPeNzAKx6p07LnYU2oF2S7xKI/q+IcBLTnpMaUKeWcL+pTh/gjeqCm7kdVMEHX+bB0nx/io719go7Fdt6vfMs5kMcQqDk5NNUbpRjY=
+  - secure: q0zrQiBbpMb9uw95cZgStq3+yRzWGN2XBB6U4qPmiiVZDlYe0eT4UCuRrLlgKxMaLJ1g5gqFVjGDX/k4wSNdmgSk2j8c6zYbdm5iKVdIIzwp/M95YfnxoaY3CxCe6vMBDDzRl2Y+jlXD7q9J4hkhx7aABZ+0mv53f15UWgrDGI669ht7a0UAz+mAg6dyNyodEEPHUm8Z7hITB8JBIWrn/ksTojbeRL7GmRBYM4xlxrCdqXrR9bdQmiGzIc3sbpxcyZlaeZLI59Ao5RLIxHB2kay923Yeus0w3gJpYtphvCWb4yOVsEEcXE6Qgsck1Ta2c00535vu/etCJQI6S7oJCvxS1iScP1hoYGWe4MBjuj81iJHHDe71SLInnpem/tnng0SWR1Na+OM5eyx2Tbg5aXFRJSICHiq42N7wzocft3gWNv06iAcpsZV0JY9K/ZbhO1qVM66VksGkV44/NBOwPYvf6ujjF7wtgrY8igZTiORc1eqVlsZSQe9N0NxdYJW61oxrWcI0K6IbKmeJ47hk2RSTRIreYnksrRC3RF2tGkJm67/jwgk6DYe1OmiVqiFDFbAyRYFbPeCormhbmFm0e7y01raRi2bLtv1aH44nAFpsv7TLlye++iYNl1j/LZeTgGQNhRLuuRA+sZPFQTtTx7wKo3sugJs7OeiWmx1eZ0o=
+before_install:
+- sudo apt update -y
+- sudo apt install --only-upgrade docker-ce -y
+- sudo pip install docker-squash
+- sudo rm /usr/local/bin/docker-compose
+- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname
+  -s`-`uname -m` > docker-compose
+- chmod +x docker-compose
+- sudo mv docker-compose /usr/local/bin
+- env > .env
+install:
+- docker-compose build
+- sudo docker-squash -t $NGINX_IMAGE:$UBUNTU_VERSION.$NGINX_VERSION $NGINX_IMAGE:$UBUNTU_VERSION.$NGINX_VERSION --verbose
+- docker-compose up -d
+script:
+- docker images
+- docker ps | grep -q con-$FPM_IMAGE
+- docker ps | grep -q con-$HTTPD_IMAGE
+- docker ps | grep -q con-$NGINX_IMAGE
+- "./utils/test1_host.sh"
+- "./utils/test2_host.sh"
+- "./utils/test3_host.sh"
+- "./utils/test4_host.sh"
+- "./utils/test5_host.sh"
+- "./utils/test6n_host.sh"
+- "./utils/test7n_host.sh"
+after_success:
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- export TAG=$UBUNTU_VERSION.$NGINX_VERSION
+- docker tag $NGINX_IMAGE:$TAG $REPO:$TAG
+- docker push $REPO:$TAG
