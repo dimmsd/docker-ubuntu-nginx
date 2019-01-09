@@ -1,7 +1,7 @@
 #!/usr/bin/make
 
 .DEFAULT_GOAL := help
-.PHONY : help config-test set-log-access set-www-access build build-ds make-squash up down exec-nginx exec-httpd exec-as-root- exec-as-user \
+.PHONY : help config-test set-www-access build build-ds make-squash up down exec-nginx exec-httpd exec-as-root- exec-as-user \
  fpm-status fpm-exec-index
 
 cnf ?= .env
@@ -19,7 +19,6 @@ build-ds: build make-squash
 help:
 	@echo "Help:"
 	@echo "\tconfig-test - Test docker-compose.yml"
-	@echo "\tset-log-access - Set permissions for PHP-FPM log (for read from host)"
 	@echo "\tset-www-access - Set permissions for ./www folder: 644 for files and 755 for folders"
 	@echo "\tbuild - Build a Dockefile"
 	@echo "\tbuild-ds - Build a Dockefile with docker-squash"
@@ -34,8 +33,6 @@ help:
 	@echo "\tcheck-site - Execute for test curl $(MAIN_DOMAIN) (from container)"
 config-test:
 	@docker-compose -f docker-compose.yml config
-set-log-access:
-	sudo chmod -R 644 ./log-fpm/*
 set-www-access:
 	find ./www/ -type f -exec chmod 644 {} \;
 	find ./www/ -type d -exec chmod 755 {} \;

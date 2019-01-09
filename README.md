@@ -26,7 +26,6 @@ Nginx (as front-end) + Apache + PHP-FPM
 ```
 $ make help
 config-test			Test docker-compose.yml
-set-log-access			Set permissions for PHP-FPM log
 set-www-access			Set permissions for ./www folder : 644 for files and 755 for folders
 build				Build a Dockerfile
 build-ds			Build a Dockerfile with docker-squash (need instelled docker-sqush)

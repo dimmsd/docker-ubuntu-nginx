@@ -1,5 +1,18 @@
-version: '2.1'
+version: '2.2'
 services:
+
+  after-init:
+    image: dimmsd/ubuntu-base:16.04
+    command: /tmp/utils/after-init-php-fpm.sh
+    environment:
+      - PHP_FPM_LOG_PERMISSION=${PHP_FPM_LOG_PERMISSION}
+    depends_on:
+      - php-fpm
+      - nginx
+      - httpd
+    volumes:
+      - ./utils:/tmp/utils
+      - ./log-fpm:/tmp/log-fpm
 
   nginx:
     build:
