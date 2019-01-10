@@ -4,7 +4,7 @@ server {
     access_log /var/log/nginx/access-${MAIN_DOMAIN}.log;
     error_log  /var/log/nginx/error-${MAIN_DOMAIN}.log;
     location / {
-	root /var/www/main;
+	root ${MAIN_PATH};
 	proxy_pass http://httpd:80;
 	proxy_redirect off;
         proxy_set_header   Host             $host;
@@ -29,6 +29,6 @@ server {
 	gzip on;
 	gzip_types application/javascript text/css
 	gzip_vary on;
-        root   /var/www/main;
+        root   ${MAIN_PATH};
 	}
 }

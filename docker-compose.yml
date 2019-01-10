@@ -13,6 +13,8 @@ services:
     volumes:
       - ./utils:/tmp/utils
       - ./log-fpm:/tmp/log-fpm
+    networks:
+      test_demo:
 
   nginx:
     build:
@@ -30,6 +32,7 @@ services:
       - httpd
     environment:
       - MAIN_DOMAIN=${MAIN_DOMAIN}
+      - MAIN_PATH=${MAIN_PATH}
       - TIMEZONE=${TIMEZONE}
     extra_hosts:
       - "${MAIN_DOMAIN}:127.0.0.1"
@@ -50,6 +53,7 @@ services:
       - php-fpm
     environment:
       - MAIN_DOMAIN=${MAIN_DOMAIN}
+      - MAIN_PATH=${MAIN_PATH}
       - TIMEZONE=${TIMEZONE}
       - CLEAR_APACHE_LOG=${CLEAR_APACHE_LOG}
     volumes:

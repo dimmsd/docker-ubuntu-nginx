@@ -13,7 +13,7 @@ fi
 for filename in $(ls /etc/nginx/templates)
 do
   # Can't use env variable in nginx config - use envsubst (package gettext) if need...
-  cat /etc/nginx/templates/$(basename $filename) | envsubst '$${MAIN_DOMAIN}' > /etc/nginx/sites-available/$(basename $filename)
+  cat /etc/nginx/templates/$(basename $filename) | envsubst '$${MAIN_DOMAIN},$${MAIN_PATH}' > /etc/nginx/sites-available/$(basename $filename)
   cat /etc/nginx/sites-available/$(basename $filename)  >> /var/log/nginx/init.log 2>&1
   nginx_ensite $(basename $filename)  >> /var/log/nginx/init.log 2>&1
 done;
