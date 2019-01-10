@@ -8,6 +8,7 @@ env:
   - DUSER=dimmsd
   - REPO="dimmsd/ubuntu-nginx"
   - MAIN_DOMAIN=example.loc
+  - MAIN_PATH=/var/www/main
   - NGINX_IMAGE=ubuntu-nginx
   - FPM_IMAGE=ubuntu-php-fpm
   - HTTPD_IMAGE=ubuntu-httpd
